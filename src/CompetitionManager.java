@@ -1,6 +1,4 @@
-import java.lang.ref.SoftReference;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class CompetitionManager {
 	
@@ -31,8 +29,25 @@ public class CompetitionManager {
 		if (remove == null){
 			return false;
 		}else{
+		    removeParticipantFromResults(startNumber);
 			participants.remove(remove);
 			return true;
+		}
+	}
+
+	/*
+	 	Jag antog att removeParticipant också borde ta bort alla resultat som den deltagaren har??
+	 */
+	private void removeParticipantFromResults(int participantStartNumber){
+		ArrayList<Result> resultsToBeRemoved = new ArrayList<>();
+	    for (Result result : results){
+	    	if (result.getParticipantStartNubmber() == participantStartNumber){
+	    		resultsToBeRemoved.add(result);
+			}
+		}
+
+		for (Result result : resultsToBeRemoved) {
+	    	results.remove(result);
 		}
 	}
 	
@@ -45,8 +60,16 @@ public class CompetitionManager {
 		return null;
 	}
 	
-	public void addEvent(String name, int attemptsAllowed){
-		Event event = new Event(name, attemptsAllowed);
+	public void addEvent(String eventName, int attemptsAllowed){
+		/*
+			Visst var det så att flera event inte fick ha samma namn?
+		 */
+		for (Event event : events){
+			if (event.getEventName().equals(eventName)){
+				return;
+			}
+		}
+		Event event = new Event(eventName, attemptsAllowed);
 		events.add(event);
 	}
 	
@@ -64,6 +87,9 @@ public class CompetitionManager {
 	}
 	
 	public void printResultForEvent(String eventName){
+	    /*
+	    	Plocka ut resultst som bara har med detta event att göra
+	     */
 		ArrayList<Result> resultsFromEvent = new ArrayList<>();
 		for (Result result : results){
 			if (result.getEventName().equals(eventName)){
@@ -71,24 +97,43 @@ public class CompetitionManager {
 			}
 		}
 
-		printList(results);
-		
-		printList(resultsFromEvent);
-		
-		ArrayList<Result> sortedResultsFromEvent = new ArrayList<>();
+		/*
+			Sortera resultaten i alphabetisk ordning
+			(så att alla med samma resultat är sorterade i fallade alphabetisk ordning)
+		 */
+		ArrayList<Result> resultsSortedAlphabetically = new ArrayList<>();
 		for (Result result : resultsFromEvent){
 			int index = 0;
-			for (Result sortResult : sortedResultsFromEvent){
+			Participant participant = getParticipant(result.getParticipantStartNubmber());
+			String firstAndLastname = participant.getForename() + participant.getSurname();
+			for (Result sortResult : resultsSortedAlphabetically){
+				Participant sortedParticipant = getParticipant(sortResult.getParticipantStartNubmber());
+				String firstAndLastnameSorted = sortedParticipant.getForename() + sortedParticipant.getSurname();
+				if (firstAndLastname.toLowerCase().compareTo(firstAndLastnameSorted.toLowerCase()) < 0) {
+					index++;
+				}
+			}
+			resultsSortedAlphabetically.add(index, result);
+		}
+
+		/*
+			Sortera resultaten efter bäst resultat
+		 */
+		ArrayList<Result> resultsSortedByResult = new ArrayList<>();
+		for (Result result : resultsSortedAlphabetically){
+			int index = 0;
+			for (Result sortResult : resultsSortedByResult){
 				if (result.getResult() < sortResult.getResult()) {
 					index++;
 				}
 			}
-			sortedResultsFromEvent.add(index, result);
+			resultsSortedByResult.add(index, result);
 		}
-		
-		printList(sortedResultsFromEvent);
-		
-		
+
+		/*
+			Skriv ut resultaten
+		 */
+		printList(resultsSortedByResult);
 	}
 	
 	private void printList(ArrayList<Result> results){

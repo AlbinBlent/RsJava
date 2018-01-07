@@ -10,8 +10,22 @@ public class Program {
 		this.competitionManager = new CompetitionManager();
 		competitionManager.addParticipant("Rosanna", "Sjöö");
 		competitionManager.addParticipant("Albin", "Blent");
+		competitionManager.addParticipant("Kalle", "Anka");
+		competitionManager.addParticipant("aac", "bbb");
+		competitionManager.addParticipant("aab", "bbb");
+		competitionManager.addParticipant("aaa", "bbb");
+		competitionManager.addParticipant("aaa", "abb");
+		competitionManager.addParticipant("aaa", "aab");
+		competitionManager.addEvent("Hoppa", 4);
 		competitionManager.addEvent("Hoppa", 4);
 		competitionManager.addResult(100, "Hoppa", 3.4);
+		competitionManager.addResult(103, "Hoppa", 3.4);
+		competitionManager.addResult(104, "Hoppa", 3.4);
+		competitionManager.addResult(105, "Hoppa", 3.4);
+		competitionManager.addResult(106, "Hoppa", 3.4);
+		competitionManager.addResult(107, "Hoppa", 3.4);
+		competitionManager.addResult(101, "Hoppa", 3.4);
+		competitionManager.addResult(102, "Hoppa", 3.4);
 		competitionManager.addResult(101, "Hoppa", 3.2);
 		competitionManager.addResult(101, "Hoppa", 4.0);
 	}
@@ -22,6 +36,7 @@ public class Program {
 	}
 	
 	public void menu(){
+		System.out.println("---------------------------");
 		System.out.println("1. Add event");
 		System.out.println("2. Add participant");
 		System.out.println("3. Remove participant");
@@ -113,6 +128,7 @@ public class Program {
 				break;
 				*/
 			}
-		}			
+			keyboard = new Scanner(System.in);
+		}
 	}
 }
