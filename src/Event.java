@@ -12,17 +12,7 @@ public class Event {
 	public int getAttemptsAllowed() {
 		return attemptsAllowed;
 	}
-	public void setAttemptsAllowed(int attemptsAllowed) {
-		this.attemptsAllowed = attemptsAllowed;
-	}
 	public String getEventName() {
 		return eventName;
 	}
-	public void setEventName(String eventName) {
-		this.eventName = eventName;
-	}
-	
-	
-	
-
 }

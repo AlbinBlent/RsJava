@@ -14,21 +14,10 @@ public class Participant {
 	public int getStartNumber() {
 		return startNumber;
 	}
-	public void setStartNumber(int startNumber) {
-		this.startNumber = startNumber;
-	}
 	public String getForename() {
 		return forename;
-	}
-	public void setForename(String forename) {
-		this.forename = forename;
 	}
 	public String getSurname() {
 		return surname;
 	}
-	public void setSurname(String surname) {
-		this.surname = surname;
-	}
-	
-
 }

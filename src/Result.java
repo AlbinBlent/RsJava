@@ -14,21 +14,10 @@ public class Result {
 	public int getParticipantStartNubmber() {
 		return participantStartNubmber;
 	}
-	public void setParticipantStartNubmber(int participantStartNubmber) {
-		this.participantStartNubmber = participantStartNubmber;
-	}
 	public String getEventName() {
 		return eventName;
-	}
-	public void setEventName(String eventName) {
-		this.eventName = eventName;
 	}
 	public double getResult() {
 		return result;
 	}
-	public void setResult(double result) {
-		this.result = result;
-	}
-	
-	
 }
