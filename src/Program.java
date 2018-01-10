@@ -3,15 +3,13 @@ import java.util.Scanner;
 
 public class Program {
 
-	private ResultService resultService;
 	private CompetitionManager competitionManager;
 	private Scanner keyboard = new Scanner(System.in);
 	
 	public Program(){
-		this.resultService = new ResultService();
-		this.competitionManager = new CompetitionManager(this.resultService);
+		this.competitionManager = new CompetitionManager();
+		/*
 		this.competitionManager.addParticipant("Rosanna", "Sjöö");
-		this.competitionManager.addParticipant("Albin", "Blent");
 		this.competitionManager.addParticipant("Kalle", "Anka");
 		this.competitionManager.addParticipant("aac", "bbb");
 		this.competitionManager.addParticipant("aab", "bbb");
@@ -24,24 +22,25 @@ public class Program {
 		this.competitionManager.addEvent("Hoppa", 4);
 		this.competitionManager.addEvent("100 Meters", 2);
 		this.competitionManager.addEvent("300 Meters", 2);
-		this.resultService.addResult(100, "Hoppa", 3.4);
-		this.resultService.addResult(103, "Hoppa", 3.4);
-		this.resultService.addResult(104, "Hoppa", 3.4);
-		this.resultService.addResult(105, "Hoppa", 3.4);
-		this.resultService.addResult(106, "Hoppa", 3.4);
-		this.resultService.addResult(107, "Hoppa", 2.4);
-		this.resultService.addResult(108, "Hoppa", 5.4);
-		this.resultService.addResult(101, "Hoppa", 3.4);
-		this.resultService.addResult(101, "Hoppa", 1.4);
-		this.resultService.addResult(101, "Hoppa", 2.4);
-		this.resultService.addResult(101, "Hoppa", 4.4);
-		this.resultService.addResult(101, "Hoppa", 5.4);
-		this.resultService.addResult(101, "100 Meters", 13.4);
-		this.resultService.addResult(101, "300 Meters", 33.4);
-		this.resultService.addResult(101, "Skutta", 13.4);
-		this.resultService.addResult(102, "Hoppa", 3.4);
-		this.resultService.addResult(101, "Hoppa", 3.2);
-		this.resultService.addResult(101, "Hoppa", 4.0);
+		this.competitionManager.addResult(100, "Hoppa", 3.4);
+		this.competitionManager.addResult(103, "Hoppa", 3.4);
+		this.competitionManager.addResult(104, "Hoppa", 3.4);
+		this.competitionManager.addResult(105, "Hoppa", 3.4);
+		this.competitionManager.addResult(106, "Hoppa", 3.4);
+		this.competitionManager.addResult(107, "Hoppa", 2.4);
+		this.competitionManager.addResult(108, "Hoppa", 5.4);
+		this.competitionManager.addResult(101, "Hoppa", 3.4);
+		this.competitionManager.addResult(101, "Hoppa", 1.4);
+		this.competitionManager.addResult(101, "Hoppa", 2.4);
+		this.competitionManager.addResult(101, "Hoppa", 4.4);
+		this.competitionManager.addResult(101, "Hoppa", 5.4);
+		this.competitionManager.addResult(101, "100 Meters", 13.4);
+		this.competitionManager.addResult(101, "300 Meters", 33.4);
+		this.competitionManager.addResult(101, "Skutta", 13.4);
+		this.competitionManager.addResult(102, "Hoppa", 3.4);
+		this.competitionManager.addResult(101, "Hoppa", 3.2);
+		this.competitionManager.addResult(101, "Hoppa", 4.0);
+		*/
 	}
 
 	public static void main(String[] args) {
@@ -109,7 +108,7 @@ public class Program {
 		System.out.print(greeting);
 		double result = keyboard.nextDouble();
 		if (result < 0.0){
-			System.out.print("Error: must be greater than of equal to zero!");
+			System.out.println("Error: must be greater than of equal to zero!");
 			return getUserInputResult(greeting);
 		}
 		return result;
@@ -154,7 +153,7 @@ public class Program {
 				break;
 			case "3": //remove participant
 			case "remove participant":
-				System.out.println("Number");
+				System.out.print("Number");
 				int startNumber = getUserInputInt();
 				Participant participant = competitionManager.removeParticipant(startNumber);
 				if (participant == null) {
@@ -181,7 +180,7 @@ public class Program {
 					System.out.println("Error: no event called \""+ eventName + "\" found!");
 					break;
 				}
-				int amountOfAttemptsForParticipantOnEvent = resultService.getAmountOfAttemptsForParticipantOnEvent(participantStartNumber, eventName);
+				int amountOfAttemptsForParticipantOnEvent = competitionManager.getAmountOfAttemptsForParticipantOnEvent(participantStartNumber, eventName);
 				if (amountOfAttemptsForParticipantOnEvent >= event.getAttemptsAllowed()) {
 					System.out.println("Error: " + participant1.getForename() + " " + participant1.getSurname() +
 						" has already made " + event.getAttemptsAllowed() + " attempts in " + event.getEventName());
@@ -190,7 +189,7 @@ public class Program {
 				String resultGreeting = "Results for " + participant1.getForename() + " " + participant1.getSurname() +
 						" in " + event.getEventName() + ": ";
 				double res = getUserInputResult(resultGreeting);
-				resultService.addResult(participantStartNumber, eventName, res);
+				competitionManager.addResult(participantStartNumber, eventName, res);
 				System.out.println("Added result " + res + " for "+ participant1.getForename() + " " +
 						participant1.getSurname() + " in event " + event.getEventName());
 				break;
@@ -214,15 +213,52 @@ public class Program {
 					break;
 				}
 				String[] messageArray = cmd.split(" ", 2);
-				if (messageArray[0].equals("message")) {
+				if (messageArray[0].equals("message") && messageArray.length > 1) {
 					// Skriv ut meddelande
-					System.out.println("Printing message");
-					System.out.println(messageArray[1]);
+                    String message = messageArray[1];
+
+					System.out.println(convertMessage(message));
+					break;
 				}
 				System.out.println("Error: unknown command " + cmd);
 				break;
 			}
 			keyboard = new Scanner(System.in);
 		}
+	}
+
+	private String convertMessage(String message) {
+		String upperFrame = "\n" + getRowOfCharacters('#', 60) + "\n";
+		String lowerFrame = getRowOfCharacters('#', 60) + "\n";
+		StringBuilder messageBody = new StringBuilder();
+		int messageLength = message.length();
+		int division = (messageLength/56);
+		System.out.println("message length: " + messageLength);
+		System.out.println("divided this is " + division);
+
+		int index = 0;
+		for (int i = 0; i < message.length()/56; i++) {
+			messageBody.append("# ");
+			messageBody.append(message.substring(i * 56, (i * 56) + 56));
+			messageBody.append(" #");
+			messageBody.append("\n");
+			index++;
+		}
+		int remainder = messageLength % 56;
+		messageBody.append("# ");
+		messageBody.append(message.substring(index * 56, (index * 56) + remainder));
+		messageBody.append(getRowOfCharacters(' ', (56 - remainder)));
+		messageBody.append(" #");
+		messageBody.append("\n");
+
+		return upperFrame + messageBody.toString() + lowerFrame;
+	}
+
+	private String getRowOfCharacters(char c, int amount){
+		StringBuilder row = new StringBuilder();
+		for (int i = 0; i < amount; i++) {
+			row.append(c);
+		}
+		return row.toString();
 	}
 }
