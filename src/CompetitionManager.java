@@ -36,18 +36,20 @@ public class CompetitionManager {
 
 	public void addResult(int startNumber, String eventName, double result){
 		Participant participant = null;
+		Event event = null;
 		for (Participant p : participants){
 			if (p.getStartNumber() == startNumber){
-				p.addResult(eventName, result);
 				participant = p;
 			}
 		}
 
-		for (Event event : events){
-			if (event.getEventName().equals(eventName)){
-				event.addResult(participant, result);
+		for (Event e : events){
+			if (e.getEventName().equals(eventName)){
+				event = e;
 			}
 		}
+		participant.addResult(event, result);
+		event.addResult(participant, result);
 	}
 
 	private void removeParticipantFromEventResults(int startNumber){

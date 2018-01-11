@@ -5,14 +5,14 @@ public class Participant {
 	private int startNumber;
 	private String forename;
 	private String surname;
-	private ParticipantResult[] participantResults;
+	private Result[] participantResults;
 	private int resultIndex;
 
 	public Participant(int startNumber, String forename, String surname){
 		this.startNumber = startNumber;
 		this.forename = forename;
 		this.surname = surname;
-		this.participantResults = new ParticipantResult[100];
+		this.participantResults = new Result[100];
 		resultIndex = 0;
 	}
 	
@@ -28,39 +28,38 @@ public class Participant {
 		return surname;
 	}
 
-	public void addResult(String eventName, double result){
-		participantResults[resultIndex] = new ParticipantResult(eventName, result);
+	public void addResult(Event event, double result){
+		participantResults[resultIndex] = new Result(event, this, result);
 		resultIndex++;
 	}
 
-	public void printResults(){
-		ArrayList<ParticipantResult> resultsSortedByEvent = new ArrayList<>();
+	/**
+	 * Sort results in descending alphabetical order by event name
+	 * @param results unsorted array
+	 * @return sorted list
+	 */
+	private ArrayList<Result> sortResultsByEventName(Result[] results) {
+		ArrayList<Result> sortedResults = new ArrayList<>();
 		for (int i = 0; i < resultIndex; i++) {
-			ParticipantResult result = participantResults[i];
+			Result result = results[i];
 			int index = 0;
-			String eventName = result.eventName;
-			for (ParticipantResult sortResult : resultsSortedByEvent){
-				String sortedEventName = sortResult.eventName;
+			String eventName = result.getEvent().getEventName();
+			for (Result sortResult : sortedResults){
+				String sortedEventName = sortResult.getEvent().getEventName();
 				if (eventName.toLowerCase().compareTo(sortedEventName.toLowerCase()) > 0) {
 					index++;
 				}
 			}
-			resultsSortedByEvent.add(index, result);
+			sortedResults.add(index, result);
 		}
-
-		for (ParticipantResult participantResult : resultsSortedByEvent){
-			System.out.println("Result for " + forename + " " + surname + " in "
-					+ participantResult.eventName + ": " + participantResult.result);
-		}
+		return sortedResults;
 	}
 
-	private class ParticipantResult{
-		private String eventName;
-		private double result;
-
-		private ParticipantResult(String eventName, double result){
-			this.eventName = eventName;
-			this.result = result;
+	public void printResults(){
+		ArrayList<Result> resultsSortedByEvent = sortResultsByEventName(participantResults);
+		for (Result participantResult : resultsSortedByEvent){
+			System.out.println("Result for " + forename + " " + surname + " in "
+					+ participantResult.getEvent().getEventName() + ": " + participantResult.getScore());
 		}
 	}
 }
