@@ -1,0 +1,27 @@
+import java.util.Scanner;
+
+public class Test {
+	public static void main (String[] args){
+		Scanner keyboard = new Scanner(System.in);
+		System.out.print("skriv: ");
+		String c = keyboard.nextLine();
+		
+	}
+	private static boolean isntVowel(char c) {
+		 switch (c) {
+		 case 'A':
+		 case 'E':
+		 case 'I':
+		 case 'O':
+		 case 'U':
+		 return false;
+		 default:
+		 return true;
+		 }
+		
+	}
+
+
+	
+	
+}
