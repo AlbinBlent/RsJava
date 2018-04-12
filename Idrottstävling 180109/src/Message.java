@@ -1,12 +1,16 @@
 //Rosanna Sjöö, rosj4727, grupp 078s
+
+//lägg in blankrad före och efter. "Ramen ska ha en fast bredd på 60 tecken och minst en blankrad både före och efter"
 public class Message {
 	public String convertMessage(String message) {
-		String upperFrame = getRowOfCharacters('#', 60) + "\n";
+		String upperFrame = "\n" + getRowOfCharacters('#', 60) + "\n";
 		String lowerFrame = getRowOfCharacters('#', 60) + "\n";
 		StringBuilder messageBody = new StringBuilder();
+		
+		messageBody.append("#                                                          #\n");
+		
 		int messageLength = message.length();
 		int division = (messageLength/56);
-
 		int index = 0;
 		for (int i = 0; i < message.length()/56; i++) {
 			messageBody.append("# ");
@@ -21,8 +25,10 @@ public class Message {
 		messageBody.append(getRowOfCharacters(' ', (56 - remainder)));
 		messageBody.append(" #");
 		messageBody.append("\n");
+		messageBody.append("#                                                          #\n");
+		
 
-		return upperFrame + messageBody.toString() + lowerFrame;
+		return upperFrame + messageBody.toString().toUpperCase() + lowerFrame;
 	}
 
 	private String getRowOfCharacters(char c, int amount){

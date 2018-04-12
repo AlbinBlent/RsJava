@@ -17,6 +17,13 @@ public class Program {
 		this.keyboard = new Scanner(System.in);
 		this.messageUtil = new Message();
 		this.br = new BufferedReader(new InputStreamReader(System.in));
+		
+		competitionManager.addEvent("Hoppa", 3);
+		competitionManager.addEvent("Springa", 3);
+		competitionManager.addParticipant("R", "S", "bäst");
+		competitionManager.addResult(100, "Hoppa", 4);
+		competitionManager.addResult(100, "Springa", 2);
+		competitionManager.addResult(100, "Hoppa", 3);
 	}
 
 	public static void main(String[] args) {
@@ -38,35 +45,35 @@ public class Program {
 
 	private String normalizeString(String str) {
 	    str = str.toLowerCase();
-		StringBuilder stringBuilder = new StringBuilder();
-		for (String word : str.split(" ")) {
-		    if (!word.isEmpty()) {
-				String capitalizedWord = word.substring(0, 1).toUpperCase() + word.substring(1);
-				stringBuilder.append(capitalizedWord + " ");
-			}
-		}
-		return stringBuilder.toString().trim();
+		return str.substring(0, 1).toUpperCase() + str.substring(1);
 	}
 
-	private String getUserInputString(String greeting, Boolean shouldNormalize, String errorMsg){
+	private String getUserInputString(String greeting, boolean shouldNormalize, String errorMsg){
 		System.out.print(greeting);
 		String userInput = keyboard.nextLine().trim();
-		if (shouldNormalize) {
-			userInput = normalizeString(userInput);
-		}
-		if (userInput.isEmpty()){
+		if (userInput.isEmpty() || userInput.trim().length() == 0){
 			System.out.println(errorMsg);
 			return getUserInputString(greeting, shouldNormalize, errorMsg);
+		} else if (shouldNormalize) {
+			userInput = normalizeString(userInput);
 		}
 		return userInput;
 	}
 
-	/**
+	/*
 	 * För att förhindra att Scannern hoppar över nästa input
-	 * @return
 	 */
 	private int getUserInputInt(){
 		int i = keyboard.nextInt();
+		keyboard.nextLine();
+		return i;
+	}
+	
+	/*
+	 * För att förhindra att Scannern hoppar över nästa input
+	 */
+	private double getUserInputDouble(){
+		double i = keyboard.nextDouble();
 		keyboard.nextLine();
 		return i;
 	}
@@ -82,7 +89,7 @@ public class Program {
 
 	private double getUserInputResult(String greeting){
 		System.out.print(greeting);
-		double result = keyboard.nextDouble();
+		double result = getUserInputDouble();
 		if (result < 0.0){
 			System.out.println("Error: must be greater than or equal to zero!");
 			return getUserInputResult(greeting);
@@ -96,7 +103,7 @@ public class Program {
 				"Error: name can't be empty!");
 		if (competitionManager.checkIfEventExists(name)){
 			System.out.println("Error: " + name + " has already been added");
-			return getEventNameFromUser();
+			//return getEventNameFromUser();
 		}
 		return name;
 	}
@@ -108,11 +115,12 @@ public class Program {
 			System.out.print("Command: ");
 			String cmd = keyboard.nextLine();
 
-			System.out.println("bork bork <<<<<<<<<");
 			switch (cmd) {
 			case "1":
 			case "add event":
 				String name = getEventNameFromUser();
+				if (name.isEmpty())
+					break;
 				System.out.print("Attempts allowed: ");
 				int attemptsAllowed = getUserInputAttemptsAllowed();
 				competitionManager.addEvent(name, attemptsAllowed);
@@ -126,8 +134,11 @@ public class Program {
 				String surname = getUserInputString("Last name: ",
 						true,
 						"Error: name can't be empty!");
-				int number = competitionManager.addParticipant(forename, surname);
-				System.out.println(forename + " " + surname + " with number " + number + " added");
+				String teamName = getUserInputString("Team name: ",  //lagt till efter handledning
+						true,
+						"Error: team name can't be empty!");
+				int number = competitionManager.addParticipant(forename, surname, teamName);
+				System.out.println(forename + " " + surname + " in team " + teamName + " with number " + number + " added");
 				break;
 			case "3": //remove participant
 			case "remove participant":
@@ -183,6 +194,10 @@ public class Program {
 					running = false;
 					break;
 			default:
+				if (cmd.isEmpty()){
+					System.out.println("Error: unknown command");
+					break;
+				}
 				String eventNameForResults = normalizeString(cmd);
 				if (competitionManager.checkIfEventExists(eventNameForResults)) {
 					// Skriv ut event results

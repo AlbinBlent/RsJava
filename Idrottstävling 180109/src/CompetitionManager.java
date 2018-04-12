@@ -5,15 +5,17 @@ public class CompetitionManager {
 	
 	private ArrayList<Participant> participants;
 	private ArrayList<Event> events;
+	private int startNumber;
 
 	public CompetitionManager(){
 		this.participants = new ArrayList<>();
 		this.events = new ArrayList<>();
+		this.startNumber = 99;
 	}
 	
-	public int addParticipant(String forename, String surname){
-		int startNumber = 100 + participants.size();
-		Participant participant = new Participant(startNumber, forename, surname);
+	public int addParticipant(String forename, String surname, String teamName){ //lagt till efter handledning
+		startNumber++;
+		Participant participant = new Participant(startNumber, forename, surname, teamName);
 		participants.add(participant);
 		return startNumber;
 	}

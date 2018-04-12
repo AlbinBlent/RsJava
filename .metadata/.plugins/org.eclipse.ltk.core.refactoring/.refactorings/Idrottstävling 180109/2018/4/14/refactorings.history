@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Move 6 elements to &apos;UML 180408.ucls&apos;&#x0A;- Original project: &apos;Idrottstävling 180109&apos;&#x0A;- Destination element: &apos;UML 180408.ucls&apos;&#x0A;- Original elements:&#x0A;     Participant.java&#x0A;     Program.java&#x0A;     CompetitionManager.java&#x0A;     Event.java&#x0A;     Message.java&#x0A;     Result.java&#x0A;- Update references to refactored element" description="Move compilation units" element1="/src&lt;{Participant.java" element2="/src&lt;{Program.java" element3="/src&lt;{CompetitionManager.java" element4="/src&lt;{Event.java" element5="/src&lt;{Message.java" element6="/src&lt;{Result.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.move" policy="org.eclipse.jdt.ui.moveResources" qualified="false" references="true" stamp="1523203563892" target="src/UML 180408.ucls" units="6" version="1.0"/>
+</session>

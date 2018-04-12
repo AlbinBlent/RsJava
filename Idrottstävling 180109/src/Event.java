@@ -1,4 +1,5 @@
 //Rosanna Sjöö, rosj4727, grupp 078
+//inmatning ska avbrytas efter att två likadana events skrivits in. Gå tillbaka till command, inte fråga efter event name igen
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
@@ -40,15 +41,9 @@ public class Event {
 	}
 
 	/*
-        Sortera resultaten i alphabetisk ordning
-        (så att alla med samma resultat är sorterade i fallade alphabetisk ordning)
+        Sorterar resultaten i alphabetisk ordning så att alla med samma resultat är sorterade i fallade alphabetisk ordning
      */
 
-	/**
-	 * Sort a result list in descending alphabetical order by participant names
-	 * @param results unsorted list
-	 * @return sorted list
-	 */
 	private ArrayList<Result> sortResultsByParticipantNames(ArrayList<Result> results) {
 		ArrayList<Result> sortedResults = new ArrayList<>();
 		for (Result result : results){
@@ -67,10 +62,8 @@ public class Event {
 		return sortedResults;
 	}
 
-	/**
-	 * Sort list by score. The higher score the better.
-	 * @param results unsorted list
-	 * @return sorted list
+	/*
+    Sorterar score
 	 */
 	private ArrayList<Result> sortResultsByScore(ArrayList<Result> results) {
 		ArrayList<Result> sortedResults = new ArrayList<>();
@@ -94,8 +87,8 @@ public class Event {
 		ArrayList<Result> eventResultsSortedByResult = sortResultsByScore(eventResultsSortedAlphabetically);
 
 		/*
-			Ta bort resultat för deltagare med fler än ett resultat. Spara det bästa.
-			Efter som att listan redan är sorterad med bästa resultatet först så kommer det bästa sparas
+			Ta bort resultat för deltagare med fler än ett resultat och spara det bästa.
+			Eftersom att listan redan är sorterad med bästa resultatet först så kommer det bästa sparas
 		 */
 		ArrayList<Result> eventResultsSortedByResultWithUniqueParticipants = new ArrayList<>();
 		for (Result result : eventResultsSortedByResult){
@@ -114,15 +107,15 @@ public class Event {
 			Result eventResult = eventResultsSortedByResultWithUniqueParticipants.get(i);
 			Participant participant = eventResult.getParticipant();
 			if (i == 0) {
-				System.out.println(previousPosition + " " + eventResult.getScore() + " " + participant.getForename() + " " + participant.getSurname());
+				System.out.println(previousPosition + " " + eventResult.getScore() + " " + participant.getForename() + " " + participant.getSurname() + " " + participant.getTeamName());
 				previousResult = eventResult.getScore();
 			} else if (i < listSize){
 				if (eventResult.getScore() == previousResult) {
-					System.out.println(previousPosition + " " + eventResult.getScore() + " " + participant.getForename() + " " + participant.getSurname());
+					System.out.println(previousPosition + " " + eventResult.getScore() + " " + participant.getForename() + " " + participant.getSurname() + " " + participant.getTeamName());
 				} else {
 				    previousPosition = (i + 1);
 				    previousResult = eventResult.getScore();
-					System.out.println(previousPosition + " " + eventResult.getScore() + " " + participant.getForename() + " " + participant.getSurname());
+					System.out.println(previousPosition + " " + eventResult.getScore() + " " + participant.getForename() + " " + participant.getSurname() + " " + participant.getTeamName());
 				}
 			}
 		}

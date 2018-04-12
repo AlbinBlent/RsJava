@@ -1,0 +1,12 @@
+{
+  "/Library/Java/JavaVirtualMachines/jdk1.8.0_112.jdk/Contents/Home/jre/lib/rt.jar": {
+    "location": "/Library/Java/JavaVirtualMachines/jdk1.8.0_112.jdk/Contents/Home/jre/lib/rt.jar",
+    "status": "UNRESOLVED",
+    "error": "Could not transfer artifact jre:jre:zip:call:1.0.0 from/to remote-models (http://download.eclipse.org/recommenders/models/kepler/): Error transferring file, server returned status code 307"
+  },
+  "/Users/rosannasjoo/Documents/IT och marknadskommunikation/DSV HT-17/Java 2017/Idrottstävling17/NyIdrottstävling18/Idrottstävling 180109/src": {
+    "location": "/Users/rosannasjoo/Documents/IT och marknadskommunikation/DSV HT-17/Java 2017/Idrottstävling17/NyIdrottstävling18/Idrottstävling 180109/src",
+    "status": "UNRESOLVED",
+    "error": "No class path info available for \u0027/Users/rosannasjoo/Documents/IT och marknadskommunikation/DSV HT-17/Java 2017/Idrottstävling17/NyIdrottstävling18/Idrottstävling 180109/src\u0027. Skipped."
+  }
+}
